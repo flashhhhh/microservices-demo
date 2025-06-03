@@ -1,0 +1,72 @@
+services:
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
+  
+  adservice:
+    image: adservice
+  
+  cartservice:
+    image: cartservice
+    depends_on:
+      - redis
+
+  productcatalogservice:
+    image: productcatalogservice
+  
+  shippingservice:
+    image: shippingservice
+    environment:
+      - DISABLE_PROFILER=1
+  
+  currencyservice:
+    image: currencyservice
+    environment:
+      - PORT=7000
+      - DISABLE_PROFILER=1
+  
+  paymentservice:
+    image: paymentservice
+    environment:
+      - PORT=50051
+      - DISABLE_PROFILER=1
+  
+  emailservice:
+    image: emailservice
+    environment:
+      - DISABLE_PROFILER=1
+  
+  ####################################################
+
+  recommendationservice:
+    image: recommendationservice
+    environment:
+      - PRODUCT_CATALOG_SERVICE_ADDR=productcatalogservice:3550
+  
+  checkoutservice:
+    image: checkoutservice
+    environment:
+      - SHIPPING_SERVICE_ADDR=shippingservice:50051
+      - PRODUCT_CATALOG_SERVICE_ADDR=productcatalogservice:3550
+      - CART_SERVICE_ADDR=cartservice:7070
+      - CURRENCY_SERVICE_ADDR=currencyservice:7000
+      - EMAIL_SERVICE_ADDR=emailservice:8080
+      - PAYMENT_SERVICE_ADDR=paymentservice:50051
+  
+  frontend:
+    image: frontend
+    ports:
+      - 80:8080
+    environment:
+      - PRODUCT_CATALOG_SERVICE_ADDR=productcatalogservice:3550
+      - CURRENCY_SERVICE_ADDR=currencyservice:7000
+      - CART_SERVICE_ADDR=cartservice:7070
+      - RECOMMENDATION_SERVICE_ADDR=recommendation:8080
+      - CHECKOUT_SERVICE_ADDR=checkoutservice:5050
+      - SHIPPING_SERVICE_ADDR=shippingservice:50051
+      - AD_SERVICE_ADDR=adservice:9555
+      - SHOPPING_ASSISTANT_SERVICE_ADDR=shoppingassistantservice:80
+  
+  loadgenerator:
+    image: loadgenerator
