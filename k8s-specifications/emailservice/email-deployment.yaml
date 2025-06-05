@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: microservices-demo
+  name: emailservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: emailservice
+  template:
+    metadata:
+      labels:
+        app: emailservice
+    spec:
+      containers:
+        - name: emailservice
+          image: us-central1-docker.pkg.dev/google-samples/microservices-demo/emailservice:v0.10.3
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DISABLE_PROFILER
+              valueFrom:
+                configMapKeyRef:
+                  name: microservices-demo-config
+                  key: DISABLE_PROFILER

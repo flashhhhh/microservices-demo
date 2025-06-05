@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: microservices-demo
+  name: productcatalogservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: productcatalogservice
+  template:
+    metadata:
+      labels:
+        app: productcatalogservice
+    spec:
+      containers:
+        - name: productcatalogservice
+          image: us-central1-docker.pkg.dev/google-samples/microservices-demo/productcatalogservice:v0.10.3
+          ports:
+            - containerPort: 3550

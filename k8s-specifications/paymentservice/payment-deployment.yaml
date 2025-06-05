@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: microservices-demo
+  name: paymentservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: paymentservice
+  template:
+    metadata:
+      labels:
+        app: paymentservice
+    spec:
+      containers:
+        - name: paymentservice
+          image: us-central1-docker.pkg.dev/google-samples/microservices-demo/paymentservice:v0.10.3
+          ports:
+            - containerPort: 50051
+          env:
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: microservices-demo-config
+                  key: PAYMENT_PORT
+            - name: DISABLE_PROFILER
+              valueFrom:
+                configMapKeyRef:
+                  name: microservices-demo-config
+                  key: DISABLE_PROFILER

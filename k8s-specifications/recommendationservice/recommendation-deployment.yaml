@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: microservices-demo
+  name: recommendationservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: recommendationservice
+  template:
+    metadata:
+      labels:
+        app: recommendationservice
+    spec:
+      containers:
+        - name: recommendationservice
+          image: us-central1-docker.pkg.dev/google-samples/microservices-demo/recommendationservice:v0.10.3
+          ports:
+            - containerPort: 8080
+          env:
+            - name: PRODUCT_CATALOG_SERVICE_ADDR
+              valueFrom:
+                configMapKeyRef:
+                  name: microservices-demo-config
+                  key: PRODUCT_CATALOG_SERVICE_ADDR

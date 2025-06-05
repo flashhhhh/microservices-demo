@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: microservices-demo
+  name: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: us-central1-docker.pkg.dev/google-samples/microservices-demo/frontend:v0.10.3
+          ports:
+            - containerPort: 8080
+          env:
+            - name: PRODUCT_CATALOG_SERVICE_ADDR
+              valueFrom:
+                configMapKeyRef:
+                  name: microservices-demo-config
+                  key: PRODUCT_CATALOG_SERVICE_ADDR
+            - name: CURRENCY_SERVICE_ADDR
+              valueFrom:
+                configMapKeyRef:
+                  name: microservices-demo-config
+                  key: CURRENCY_SERVICE_ADDR
+            - name: CART_SERVICE_ADDR
+              valueFrom:
+                configMapKeyRef:
+                  name: microservices-demo-config
+                  key: CART_SERVICE_ADDR
+            - name: RECOMMENDATION_SERVICE_ADDR
+              valueFrom:
+                configMapKeyRef:
+                  name: microservices-demo-config
+                  key: RECOMMENDATION_SERVICE_ADDR
+            - name: CHECKOUT_SERVICE_ADDR
+              valueFrom:
+                configMapKeyRef:
+                  name: microservices-demo-config
+                  key: CHECKOUT_SERVICE_ADDR
+            - name: SHIPPING_SERVICE_ADDR
+              valueFrom:
+                configMapKeyRef:
+                  name: microservices-demo-config
+                  key: SHIPPING_SERVICE_ADDR
+            - name: AD_SERVICE_ADDR
+              valueFrom:
+                configMapKeyRef:
+                  name: microservices-demo-config
+                  key: AD_SERVICE_ADDR
+            - name: SHOPPING_ASSISTANT_SERVICE_ADDR
+              valueFrom:
+                configMapKeyRef:
+                  name: microservices-demo-config
+                  key: SHOPPING_ASSISTANT_SERVICE_ADDR

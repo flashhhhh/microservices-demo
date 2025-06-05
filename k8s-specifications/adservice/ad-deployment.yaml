@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: microservices-demo
+  name: adservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: adservice
+  template:
+    metadata:
+      name: adservice
+      labels:
+        app: adservice
+    spec:
+      containers:
+        - name: adservice
+          image: us-central1-docker.pkg.dev/google-samples/microservices-demo/adservice:v0.10.3
+          ports:
+            - containerPort: 9555
+          

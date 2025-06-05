@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: microservices-demo
+  name: currencyservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: currencyservice
+  template:
+    metadata:
+      labels:
+        app: currencyservice
+    spec:
+      containers:
+        - name: currencyservice
+          image: us-central1-docker.pkg.dev/google-samples/microservices-demo/currencyservice:v0.10.3
+          ports:
+            - containerPort: 7000
+          env:
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: microservices-demo-config
+                  key: CURRENCY_PORT
+            - name: DISABLE_PROFILER
+              valueFrom:
+                configMapKeyRef:
+                  name: microservices-demo-config
+                  key: DISABLE_PROFILER
