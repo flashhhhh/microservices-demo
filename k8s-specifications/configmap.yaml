@@ -13,7 +13,7 @@ data:
   CURRENCY_SERVICE_ADDR: "currencyservice:7000"
   EMAIL_SERVICE_ADDR: "emailservice:8080"
   PAYMENT_SERVICE_ADDR: "paymentservice:50051"
-  RECOMMENDATION_SERVICE_ADDR: "recommendation:8080"
+  RECOMMENDATION_SERVICE_ADDR: "recommendationservice:8080"
   CHECKOUT_SERVICE_ADDR: "checkoutservice:5050"
   AD_SERVICE_ADDR: "adservice:9555"
   SHOPPING_ASSISTANT_SERVICE_ADDR: "shoppingassistantservice:80"
